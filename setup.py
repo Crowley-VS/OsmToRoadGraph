@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='your-package-name',
+    name='osmtoroadgraph',
     version='0.1',
-    packages=find_packages(where='public'),
+    packages=find_packages(include = ['osmtoroadgraph']),
     install_requires=[
         'networkx',
     ],

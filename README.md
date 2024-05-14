@@ -5,7 +5,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 - [OsmToRoadGraph v.0.6.0](#osmtoroadgraph-v060)
-  - [Updates](#updates)
   - [Introduction](#introduction)
     - [Motivation](#motivation)
     - [Description](#description)
@@ -22,18 +21,9 @@
       - [Indoor Paths](#indoor-paths)
     - [Research](#research)
 
-## Updates
-
-**Changelog v.0.5.0 -> v.0.6.0c:**
-
-- [x] Added bz2 support for input files
-- [x] dropped Python <=3.6 support
-- [x] fixed minor issues with v.0.6.0a
-- [x] improve code quality from v.0.6.0b
-
 ## Introduction
 
-OSMtoRoadGraph aims to provide a simple tool to allow extraction of the road network of [OpenStreetMap](http://www.openstreetmap.org) files. It differentiates between three transportation networks: car, bicycle, and walking. The output data depends on the chosen parameters (which street highway types to consider, speed, ...).
+OSMtoRoadGraph aims to provide a simple Python package to allow extraction of the road network of [OpenStreetMap](http://www.openstreetmap.org) files. It differentiates between three transportation networks: car, bicycle, and walking. The output data depends on the chosen parameters (which street highway types to consider, speed, ...).
 
 ### Motivation
 
@@ -62,41 +52,34 @@ As an additional feature, and to make interaction easier, since version 0.5 OsmT
 Recently, breaking changes have been applied. If you require older versions please see the [releases](https://github.com/AndGem/OsmToRoadGraph/releases).
 
 ### Usage
+# Example: Convert an OSM file to a road graph
 
-```bash
-usage: run.py [-h] [-f FILENAME] [-n {p,b,c}] [-l] [-c] [--networkx]
+- **filename**: Path to the input OSM file.
+- **network_type**: Type of road network ('p' for pedestrian, 'b' for bicycle, 'c' for car).
+- **lcc** (optional): Compute the largest connected component of the graph (default `True`).
+- **contract** (optional): Contract the graph to reduce its complexity (default `False`).
+- **networkx_output** (optional): Output the graph in NetworkX JSON format (default `False`).
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -f FILENAME, --file FILENAME
-  -n {p,b,c}, --networkType {p,b,c}
-                        (p)edestrian, (b)icycle, (c)ar, [default: p]
-  -l, --nolcc
-  -c, --contract
-  --networkx            enable additional output of JSON format of networkx
-                        [note networkx needs to be installed for this to
-                        work].
+```python
+from osmtoroadgraph import convert_osm_to_roadgraph
+
+# Example: Convert an OSM file to a road graph
+convert_osm_to_roadgraph('path/to/file.osm', 'p', lcc=True, contract=False, networkx_output=True)
 ```
 
 #### Usage - Explanation
 
-`-f` points to the input filename; the output files will be created in the same folder and using the name of the input file as prefix and suffixes depending on the network type.
+`filename` points to the input filename; the output files will be created in the same folder and using the name of the input file as prefix and suffixes depending on the network type.
 This filename must be either an OSM XML file (usually has the file extension `.osm`) or such a file compressed by bz2 (usually has the file extension `.bz2`).
 If it is a bz2 file, the content will be decompressed in memory.
 
-`-n` sets the network type. This influences which edges are selected, their maximum speed, and if direction is important (it is assumed pedestrians can always traverse every edge in both directions, and their maximum speed is 5kmh). If you want to fine-tune this for your needs, see [Configuring the Accepted OSM Highway Types](#configuring-the-accepted-osm-highway-types).
+`network_type` sets the network type. This influences which edges are selected, their maximum speed, and if direction is important (it is assumed pedestrians can always traverse every edge in both directions, and their maximum speed is 5kmh). If you want to fine-tune this for your needs, see [Configuring the Accepted OSM Highway Types](#configuring-the-accepted-osm-highway-types).
 
-`-l` if you set this option the graph will be output as a whole but _may_ contain unconnected components. By default, the largest connected component is determined and the rest is dropped.
+`lcc` if you set this option the graph will be output as a whole but _may_ contain unconnected components. By default, the largest connected component is determined and the rest is dropped.
 
-`-c` if you specify this flag additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
+`contract` if you specify this flag additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
 
-`--networkx` if you specify this flag, an additional output file will be generated using networkx's [networkx.readwrite.json_graph.adjacency_data](https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.adjacency_data.html#networkx.readwrite.json_graph.adjacency_data). This also works with the flag `-c`. Then, a non-contracted and contracted output file compatible to networkx will be generated.
-
-Example execution:
-
-```bash
-python run.py -f data/karlsruhe_small.osm -n p -v
-```
+`networkx_output` if you specify this flag, an additional output file will be generated using networkx's [networkx.readwrite.json_graph.adjacency_data](https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.adjacency_data.html#networkx.readwrite.json_graph.adjacency_data). This also works with the flag `-c`. Then, a non-contracted and contracted output file compatible to networkx will be generated.
 
 #### Examples
 
