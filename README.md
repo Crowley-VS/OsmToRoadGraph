@@ -3,12 +3,14 @@
 ![Build Status](https://github.com/AndGem/OsmToRoadGraph/workflows/Build%20Status/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI version](https://badge.fury.io/py/osmtoroadgraph.svg)](https://pypi.org/project/osmtoroadgraph/)
 
 - [OsmToRoadGraph v.0.6.0](#osmtoroadgraph-v060)
   - [Introduction](#introduction)
     - [Motivation](#motivation)
     - [Description](#description)
     - [Requirements](#requirements)
+    - [Installation](#installation)
     - [Older Versions](#older-versions)
     - [Usage](#usage)
       - [Usage - Explanation](#usage---explanation)
@@ -46,6 +48,12 @@ As an additional feature, and to make interaction easier, since version 0.5 OsmT
 - Python 3.7+/PyPy
 - An OSM XML file
 - [Optional: [networkx](https://networkx.github.io/) as dependency: `pip3 install networkx`]
+
+### Installation
+
+```bash
+pip install osmtoroadgraph
+```
 
 ### Older Versions
 
